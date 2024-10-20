@@ -54,7 +54,7 @@ There is little bit config you will have to add in application.yml or applicatio
       com.sartaj.quick-cache.default.maxCapacity=200
       com.sartaj.quick-cache.default.evictionPolicy=FIFO
       ```
-   3. Once either one of above step is done, You can inject dependency of quick-cache in any where in your application. And making changes at once place impact change at other place.
+   3. Once either one of above step is done, You can inject dependency of quick-cache in anywhere in your application. And making changes at once place impact change at other place.
       ```java
         import com.sartaj.cache.factory.InMemoryCacheFactory;
         import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -101,73 +101,73 @@ There is little bit config you will have to add in application.yml or applicatio
             }
         }      
         ```
-   2. And Quick cache supports context based multi cache for entire application
-       1. application.yml config
-           ```yaml
-           com:
-             sartaj:
-               quick-cache:
-                 multiCache:
-                   admin:
-                   maxCapacity: 200
-                   evictionPolicy: FIFO
-                 user:
-                   maxCapacity: 200
-                   evictionPolicy: LFU
-            ```
-      2. or application.properties config
-         ```properties
-         com.sartaj.quick-cache.multiCache.admin.maxCapacity=200
-         com.sartaj.quick-cache.multiCache.admin.evictionPolicy= FIFO
-      
-         com.sartaj.quick-cache.multiCache.user.maxCapacity=200
-         com.sartaj.quick-cache.multiCache.user.evictionPolicy=LFU
+2. And Quick cache supports context based multi cache for entire application
+    1. application.yml config
+        ```yaml
+        com:
+          sartaj:
+            quick-cache:
+              multiCache:
+                admin:
+                maxCapacity: 200
+                evictionPolicy: FIFO
+              user:
+                maxCapacity: 200
+                evictionPolicy: LFU
          ```
-      3. Once either one of above step is done, You can inject dependency of quick-cache in any where in your application. And making changes at once place impact change at other place.
-         ```java
-           import com.sartaj.cache.factory.InMemoryCacheFactory;
-           import io.swagger.v3.oas.annotations.responses.ApiResponse;
-           import org.springframework.http.ResponseEntity;
-           import org.springframework.web.bind.annotation.GetMapping;
-           import org.springframework.web.bind.annotation.RequestMapping;
-           import org.springframework.web.bind.annotation.ResponseBody;
-           import org.springframework.web.bind.annotation.RestController;
+   2. or application.properties config
+      ```properties
+      com.sartaj.quick-cache.multiCache.admin.maxCapacity=200
+      com.sartaj.quick-cache.multiCache.admin.evictionPolicy= FIFO
+      
+      com.sartaj.quick-cache.multiCache.user.maxCapacity=200
+      com.sartaj.quick-cache.multiCache.user.evictionPolicy=LFU
+      ```
+   3. Once either one of above step is done, You can inject dependency of quick-cache in anywhere in your application. And making changes at once place impact change at other place.
+      ```java
+        import com.sartaj.cache.factory.InMemoryCacheFactory;
+        import io.swagger.v3.oas.annotations.responses.ApiResponse;
+        import org.springframework.http.ResponseEntity;
+        import org.springframework.web.bind.annotation.GetMapping;
+        import org.springframework.web.bind.annotation.RequestMapping;
+        import org.springframework.web.bind.annotation.ResponseBody;
+        import org.springframework.web.bind.annotation.RestController;
         
-           import java.util.Optional;
+        import java.util.Optional;
         
-           /**
-           * @author sartajhussain
-           */
-           @RestController("Check my status")
-           @RequestMapping("ping")
-           public class PingController {
+        /**
+        * @author sartajhussain
+        */
+        @RestController("Check my status")
+        @RequestMapping("ping")
+        public class PingController {
         
-               // You can use either constructor dependency or use @autowired with variable declaration
-               // @Autowired
-               private final InMemoryCacheFactory inMemoryCacheFactory;
+            // You can use either constructor dependency or use @autowired with variable declaration
+            // @Autowired
+            private final InMemoryCacheFactory inMemoryCacheFactory;
         
-               /**
-               * Inject quick-cache dependency to the constructor.
-               * @param inMemoryCacheFactory quick cache entry point
-               */
-               public PingController(InMemoryCacheFactory inMemoryCacheFactory) {
-                   this.inMemoryCacheFactory = inMemoryCacheFactory;
-               }
+            /**
+            * Inject quick-cache dependency to the constructor.
+            * @param inMemoryCacheFactory quick cache entry point
+            */
+            public PingController(InMemoryCacheFactory inMemoryCacheFactory) {
+                this.inMemoryCacheFactory = inMemoryCacheFactory;
+            }
         
-               /**
-               * Sample API to see how quick cache can be used
-               * @return string
-               */
-               @GetMapping
-               @ResponseBody
-               @ApiResponse(description = "If service is running fine the response some content")
-               public ResponseEntity<String> ping() {
-                   // Push string data in the cache
-                   Optional<String> stringOptional = inMemoryCacheFactory.getInMemoryCache("admin").put("test", "Hi, I am from admin cache store");
+            /**
+            * Sample API to see how quick cache can be used
+            * @return string
+            */
+            @GetMapping
+            @ResponseBody
+            @ApiResponse(description = "If service is running fine the response some content")
+            public ResponseEntity<String> ping() {
+                // Push string data in the cache
+                Optional<String> stringOptional = inMemoryCacheFactory.getInMemoryCache("admin").put("test", "Hi, I am from admin cache store");
             
-                   // Retrieve data from cache and return in the API response
-                   return ResponseEntity.ok(inMemoryCacheFactory.getInMemoryCache("admin").get("test", String.class).get());
-               }
-           }      
-           ```
+                // Retrieve data from cache and return in the API response
+                return ResponseEntity.ok(inMemoryCacheFactory.getInMemoryCache("admin").get("test", String.class).get());
+            }
+        }      
+        ```
       
