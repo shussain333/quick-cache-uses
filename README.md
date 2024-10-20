@@ -52,7 +52,7 @@ There is little bit config you will have to add in application.yml or applicatio
    2. or application.properties config
       ```properties
       com.sartaj.quick-cache.default.maxCapacity=200
-      com.sartaj.quick-cache.default.evictionPolicy: FIFO
+      com.sartaj.quick-cache.default.evictionPolicy=FIFO
       ```
    3. Once either one of above step is done, You can inject dependency of quick-cache in any where in your application. And making changes at once place impact change at other place.
       ```java
@@ -118,10 +118,10 @@ There is little bit config you will have to add in application.yml or applicatio
       2. or application.properties config
          ```properties
          com.sartaj.quick-cache.multiCache.admin.maxCapacity=200
-         com.sartaj.quick-cache.multiCache.admin.evictionPolicy: FIFO
+         com.sartaj.quick-cache.multiCache.admin.evictionPolicy= FIFO
       
          com.sartaj.quick-cache.multiCache.user.maxCapacity=200
-         com.sartaj.quick-cache.multiCache.user.evictionPolicy: LFU
+         com.sartaj.quick-cache.multiCache.user.evictionPolicy=LFU
          ```
       3. Once either one of above step is done, You can inject dependency of quick-cache in any where in your application. And making changes at once place impact change at other place.
          ```java
